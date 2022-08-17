@@ -68,7 +68,7 @@ def predict_wage(age, gender_encoded, WorkingHrsMoreThan40PerWeek_encoded, workT
 def predict_work_hrs(age, gender_encoded, wage, workType_encoded, physicalHealthPoints):
     gender = decode_gender(gender_encoded)
     workType = decode_work_type(workType_encoded)
-    working_hrs = wage_model.predict([[age, gender, wage, workType, physicalHealthPoints], [20, 1, 1, 0, 7]])
+    working_hrs = working_hrs_model.predict([[age, gender, wage, workType, physicalHealthPoints], [20, 1, 1, 0, 7]])
     return working_hrs[0]
 
 
@@ -82,5 +82,5 @@ def get_wage_amount(request, age_input, gender_input, WorkingHrsMoreThan40PerWee
 @api_view(["GET"])
 def get_work_hours(request, age_input, gender_input, wage_input, workType_input, physicalHealthPoints):
     if request.method == "GET":
-        wage = predict_work_hrs(age_input, gender_input, age_input, gender_input, wage_input, workType_input, physicalHealthPoints)
-        return Response(wage, status=status.HTTP_200_OK)
+        working_hrs = predict_work_hrs(age_input, gender_input, wage_input, workType_input, physicalHealthPoints)
+        return Response(working_hrs, status=status.HTTP_200_OK)
